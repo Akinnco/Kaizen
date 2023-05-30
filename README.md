@@ -1,7 +1,7 @@
 # Kaizen 
 
 <img width="349" alt="android" src="https://github.com/Akinnco/Kaizen/assets/69485226/164d3533-cd03-48f6-a5b1-1360adb088d9">
-<img width="349" alt="ios" src="https://github.com/Akinnco/Kaizen/assets/69485226/aefdd184-f99b-4739-832a-8e691dc96c20">
+<img width="401" alt="Ekran Resmi 2023-05-30 17 05 16" src="https://github.com/Akinnco/Kaizen/assets/69485226/9eb23d4e-3942-43e2-a8fe-c2edb22baa0b">
 
 
 
