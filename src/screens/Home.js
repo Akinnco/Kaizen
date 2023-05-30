@@ -11,11 +11,11 @@ import {
 import {SliderBox} from 'react-native-image-slider-box';
 import axios from 'axios';
 import normalize from 'react-native-normalize';
-
+import Footer from '../component/HighLevel/Footer/Footer';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 
-import Header from '../component/Header';
-import ScrollBar from '../component/ScrollBar';
+import ScrollBar from '../component/LowLevel/Tabs/ScrollBar';
+import Layout from '../component/HighLevel/Layout/Layout';
 const Home = () => {
   const [data, setData] = useState();
   const [images, setImages] = useState([]);
@@ -75,7 +75,10 @@ const Home = () => {
       splitByLessSign.length > 0 ? splitByLessSign[0].trim() : '';
     console.log('imagesData', images);
     return (
-      <View style={{position: 'relative', height: normalize(462, 'height')}}>
+      <View
+        style={{
+          position: 'relative',
+        }}>
         <View
           style={{
             width: normalize(295, 'width'),
@@ -94,9 +97,14 @@ const Home = () => {
           style={{
             width: normalize(305, 'width'),
             height: normalize(362, 'height'),
-            backgroundColor: item.BrandIconColor,
+            backgroundColor: '#FFFFFF',
             borderBottomRightRadius: normalize(20),
             borderBottomLeftRadius: normalize(20),
+            borderWidth: 2,
+            borderColor: '#F4F6F5',
+            borderTopRightRadius: normalize(15),
+            borderTopLeftRadius: normalize(15),
+            paddingTop: 2,
           }}>
           <View style={{position: 'relative'}}>
             <Image
@@ -166,11 +174,10 @@ const Home = () => {
     );
   };
   return (
-    <View style={{flex: 1}}>
-      <Header />
+    <Layout>
       <ScrollBar data={data} />
 
-      <View style={{}}>
+      <View style={{marginTop: normalize(20, 'height')}}>
         <Carousel
           layout={'default'}
           data={images}
@@ -203,7 +210,7 @@ const Home = () => {
           tappableDots={true}
         />
       </View>
-    </View>
+    </Layout>
   );
 };
 

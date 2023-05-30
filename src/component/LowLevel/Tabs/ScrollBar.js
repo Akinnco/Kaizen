@@ -51,7 +51,7 @@ const ScrollBar = data => {
     </View>
   );
   return (
-    <View style={{height: normalize(36, 'height')}}>
+    <View style={{marginTop: normalize(20, 'height')}}>
       <FlatList
         data={data.data}
         renderItem={renderItem}
