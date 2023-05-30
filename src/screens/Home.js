@@ -16,11 +16,10 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 
 import ScrollBar from '../component/LowLevel/Tabs/ScrollBar';
 import Layout from '../component/HighLevel/Layout/Layout';
-const Home = () => {
+const Home = ({navigation}) => {
   const [data, setData] = useState();
   const [images, setImages] = useState([]);
   const [imagesIndex, setImagesIndex] = useState(0);
-  const [imagesColor, setImagesColor] = useState();
 
   const isCarousel = React.useRef(null);
   useEffect(() => {
@@ -40,7 +39,7 @@ const Home = () => {
         },
       });
       setData(response.data);
-      console.log('List response', response.data);
+      console.log('ScrollList response', response.data);
     } catch (error) {
       console.error(error);
     }
@@ -64,8 +63,6 @@ const Home = () => {
     }
   };
   const renderItem = ({item, index}) => {
-    console.log('Stepindex', index);
-    console.log('item', item);
     const splitByGreaterSign = item.Title.split('>');
     const textAfterGreaterSign =
       splitByGreaterSign.length > 1 ? splitByGreaterSign[1].trim() : '';
@@ -73,102 +70,53 @@ const Home = () => {
     const splitByLessSign = textAfterGreaterSign.split('<');
     const textBeforeLessSign =
       splitByLessSign.length > 0 ? splitByLessSign[0].trim() : '';
-    console.log('imagesData', images);
     return (
-      <View
-        style={{
-          position: 'relative',
-        }}>
-        <View
-          style={{
-            width: normalize(295, 'width'),
-            height: normalize(100, 'height'),
-            backgroundColor: item.PromotionCardColor,
-            position: 'absolute',
-            bottom: 92,
-            transform: [{skewY: '3deg'}],
-            borderTopRightRadius: normalize(70),
-            borderBottomLeftRadius: normalize(20),
-            borderBottomRightRadius: normalize(20),
-            marginLeft: 10,
-          }}></View>
+      <View style={styles.renderContainer}>
+        <View>
+          <View
+            style={{
+              ...styles.shadowColor,
+              backgroundColor: item.PromotionCardColor,
+            }}></View>
 
-        <View
-          style={{
-            width: normalize(305, 'width'),
-            height: normalize(362, 'height'),
-            backgroundColor: '#FFFFFF',
-            borderBottomRightRadius: normalize(20),
-            borderBottomLeftRadius: normalize(20),
-            borderWidth: 2,
-            borderColor: '#F4F6F5',
-            borderTopRightRadius: normalize(15),
-            borderTopLeftRadius: normalize(15),
-            paddingTop: 2,
-          }}>
-          <View style={{position: 'relative'}}>
-            <Image
-              resizeMode="contain"
-              style={{
-                width: normalize(55, 'width'),
-                height: normalize(55, 'width'),
-                position: 'absolute',
-                zIndex: 1,
-                left: normalize(10, 'width'),
-                borderWidth: 4.5,
-                borderColor: 'white',
-                borderRadius: normalize(50),
-                bottom: normalize(30, 'height'),
-              }}
-              source={{
-                uri: item.BrandIconUrl,
-              }}
-            />
-            <Image
-              resizeMode="contain"
-              style={{
-                width: normalize(303, 'width'),
-                height: normalize(220, 'width'),
-                borderRadius: normalize(20),
-                borderBottomLeftRadius: normalize(80),
-              }}
-              source={{
-                uri: item.ImageUrl,
-              }}
-            />
+          <View style={styles.container}>
+            <View style={styles.contentContainer}>
+              <View style={styles.brandIconContainer}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.brandIcon}
+                  source={{uri: item.BrandIconUrl}}
+                />
+              </View>
 
-            <View
-              style={{
-                backgroundColor: '#1D1E1C',
-                width: normalize(97),
-                height: normalize(32),
-                alignSelf: 'flex-end',
-                bottom: normalize(40, 'height'),
-                marginRight: normalize(10),
-                borderRadius: normalize(22),
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: 'white'}}>son 12 gün</Text>
+              <Image
+                resizeMode="contain"
+                style={styles.image}
+                source={{uri: item.ImageUrl}}
+              />
+
+              <View style={styles.durationContainer}>
+                <Text style={styles.durationText}>{item.RemainingText}</Text>
+              </View>
+
+              <Text style={styles.title}>{textBeforeLessSign}</Text>
+
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('DetailScreen', {
+                    item: item,
+                  })
+                }
+                style={styles.button}>
+                <Text
+                  style={{
+                    color: item.PromotionCardColor,
+                  }}>
+                  Hemen Katıl
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-          <Text
-            style={{
-              fontWeight: '700',
-              height: normalize(50, 'height'),
-              width: normalize(245, 'width'),
-              alignSelf: 'center',
-            }}>
-            {textBeforeLessSign}
-          </Text>
-          <TouchableOpacity style={{alignSelf: 'center'}}>
-            <Text
-              style={{
-                color: item.PromotionCardColor,
-              }}>
-              Daha Daha
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -177,7 +125,7 @@ const Home = () => {
     <Layout>
       <ScrollBar data={data} />
 
-      <View style={{marginTop: normalize(20, 'height')}}>
+      <View style={{marginTop: normalize(10, 'height')}}>
         <Carousel
           layout={'default'}
           data={images}
@@ -196,10 +144,11 @@ const Home = () => {
           activeDotIndex={imagesIndex}
           carouselRef={isCarousel}
           dotStyle={{
-            width: 10,
-            height: 10,
+            width: normalize(10, 'width'),
+            height: normalize(10, 'width'),
             borderRadius: 5,
             marginHorizontal: 0,
+            bottom: normalize(26, 'height'),
             backgroundColor: images[imagesIndex]?.PromotionCardColor,
           }}
           inactiveDotStyle={{
@@ -215,3 +164,79 @@ const Home = () => {
 };
 
 export default Home;
+const styles = StyleSheet.create({
+  container: {
+    width: normalize(305, 'width'),
+    height: normalize(362, 'height'),
+    backgroundColor: '#FFFFFF',
+    borderBottomRightRadius: normalize(20),
+    borderBottomLeftRadius: normalize(20),
+    borderWidth: 2,
+    borderColor: '#F4F6F5',
+    borderTopRightRadius: normalize(15),
+    borderTopLeftRadius: normalize(15),
+    paddingTop: 2,
+  },
+  shadowColor: {
+    width: normalize(295, 'width'),
+    height: normalize(100, 'height'),
+    position: 'absolute',
+    bottom: normalize(-15, 'height'),
+    transform: [{skewY: '3deg'}],
+    borderTopRightRadius: normalize(70),
+    borderBottomLeftRadius: normalize(20),
+    borderBottomRightRadius: normalize(20),
+    marginLeft: 10,
+  },
+  renderContainer: {
+    position: 'relative',
+    height: normalize(400, 'height'),
+  },
+
+  contentContainer: {
+    position: 'relative',
+  },
+  brandIconContainer: {
+    position: 'absolute',
+  },
+  brandIcon: {
+    width: normalize(55, 'width'),
+    height: normalize(55, 'width'),
+    position: 'absolute',
+    zIndex: 1,
+    left: normalize(10, 'width'),
+    borderWidth: 4.5,
+    borderColor: 'white',
+    borderRadius: normalize(50),
+    bottom: normalize(30, 'height'),
+  },
+  image: {
+    width: normalize(303, 'width'),
+    height: normalize(220, 'width'),
+    borderRadius: normalize(20),
+    borderBottomLeftRadius: normalize(80),
+  },
+  durationContainer: {
+    backgroundColor: '#1D1E1C',
+    width: normalize(97),
+    height: normalize(32),
+    alignSelf: 'flex-end',
+    bottom: normalize(40, 'height'),
+    marginRight: normalize(10),
+    borderRadius: normalize(22),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  durationText: {
+    color: 'white',
+  },
+  title: {
+    fontWeight: '700',
+    height: normalize(50, 'height'),
+    width: normalize(245, 'width'),
+    alignSelf: 'center',
+  },
+  button: {
+    alignSelf: 'center',
+  },
+});

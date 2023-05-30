@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   imageContainer: {
-    bottom: normalize(10),
+    bottom: normalize(15, 'height'),
     height: normalize(69, 'height'),
     width: normalize(69, 'height'),
     alignSelf: 'center',
