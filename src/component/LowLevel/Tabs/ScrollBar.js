@@ -44,6 +44,8 @@ const ScrollBar = data => {
           style={{
             marginLeft: normalize(8, 'width'),
             width: normalize(60, 'width'),
+            fontWeight: '400',
+            fontSize: normalize(12, 'width'),
           }}>
           {item.Name}
         </Text>

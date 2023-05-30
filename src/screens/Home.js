@@ -98,8 +98,16 @@ const Home = ({navigation}) => {
               <View style={styles.durationContainer}>
                 <Text style={styles.durationText}>{item.RemainingText}</Text>
               </View>
-
-              <Text style={styles.title}>{textBeforeLessSign}</Text>
+              <View
+                style={{
+                  width: normalize(245, 'width'),
+                  height: normalize(50, 'height'),
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={styles.title}>{textBeforeLessSign}</Text>
+              </View>
 
               <TouchableOpacity
                 onPress={() =>
@@ -232,9 +240,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: '700',
-    height: normalize(50, 'height'),
-    width: normalize(245, 'width'),
-    alignSelf: 'center',
+    lineHeight: normalize(20, 'width'),
   },
   button: {
     alignSelf: 'center',
